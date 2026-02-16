@@ -8,7 +8,7 @@
       name="description"
       content="QRix turns everyday packaging into a digital return channel: scan → action → bonus → repeat."
     />
-    <link rel="stylesheet" href="styles.css?v=20260216-4" />
+    <link rel="stylesheet" href="styles.css?v=20260216-6" />
   </head>
   <body>
     <main>
@@ -24,6 +24,11 @@
 
     <div class="hero-right">
       <img src="assets/image/hero.png" alt="QRix interactive packaging ecosystem illustration">
+    </div>
+
+    <!-- Large QR block under illustration -->
+    <div class="hero-qr-block">
+      <img src="assets/image/QR_logo.png" alt="Scan QRix code" class="hero-qr-large">
     </div>
 
     <p class="hero-subtitle">
@@ -207,5 +212,27 @@ QRix brings proven loyalty mechanics to small, independent places — with no se
       <footer class="footer">
       </footer>
     </main>
+
+    <button class="scroll-to-top" id="scrollToTop" type="button" aria-label="Scroll to top">
+      <span aria-hidden="true">↑</span>
+    </button>
+
+    <script>
+      const scrollButton = document.getElementById("scrollToTop");
+      const heroSection = document.getElementById("hero");
+
+      const toggleScrollButton = () => {
+        const heroBottom = heroSection.getBoundingClientRect().bottom;
+        scrollButton.classList.toggle("is-visible", heroBottom < 0);
+      };
+
+      window.addEventListener("scroll", toggleScrollButton, { passive: true });
+      window.addEventListener("resize", toggleScrollButton);
+      toggleScrollButton();
+
+      scrollButton.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    </script>
   </body>
 </html>
