@@ -190,3 +190,40 @@ main img {
   margin-right: auto;
   margin-bottom: 48px;
 }
+
+/* === HERO overrides (must be at the very end) === */
+
+section#hero.hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  align-items: center;
+}
+
+section#hero .hero-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+section#hero img.hero-logo {
+  width: 56px;
+  height: auto;
+  margin: 0;
+  border-radius: 12px;
+}
+
+section#hero .hero-right img {
+  margin: 0; /* override main img margins */
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+}
+
+@media (min-width: 900px) {
+  section#hero.hero {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 40px;
+  }
+}
