@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QRix — from packaging to digital channel</title>
+    <meta
+      name="description"
+      content="QRix turns everyday packaging into a digital return channel: scan → action → bonus → repeat."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <section id="intro">
+        <h1>Every day, people hold the same simple objects in their hands.</h1>
+
+        <p>Every morning, millions of people buy coffee and walk away holding a paper cup.
+        Every evening, millions buy popcorn and carry a bucket through a movie.
+        Others grab lunch boxes, snack bags, or chips on the go — small everyday items that stay with them for minutes, sometimes much longer.</p>
+
+        <p>QRix is built around a simple idea:
+        if people already hold these objects, they can do more than just contain food.</p>
+
+        <p>By placing interactive advertising directly on cups, buckets, boxes, and bags, QRix turns everyday items into a digital touchpoint — connecting the physical moment to stories, rewards, and interactive experiences through a simple QR scan.</p>
+      </section>
+
+      <section id="end-users">
+        <h2>It starts with a coffee — and continues with everything people hold.</h2>
+        <p>A customer orders a drink or a snack and receives an everyday item with an attractive illustration and a QR code.
+        The visual invites curiosity — it feels natural to scan.</p>
+
+        <p>After scanning, the customer lands on a page where they can earn bonuses, explore a short story, watch a video, listen to audio, or play a small game — all made possible by the brands supporting the experience.</p>
+
+        <h2>For the customer, scanning is rewarding.</h2>
+        <p>Scanning gives the customer something back.
+        They earn points that can be collected and later used with participating partners across the QRix network.</p>
+
+        <p>At the same time, the scan turns a few ordinary minutes — drinking coffee, eating popcorn, holding a cup or a box — into a small interactive moment: something to explore, watch, listen to, or play with while they’re already there.</p>
+      </section>
+
+      <section id="advertisers">
+        <h2>For the advertiser: your message becomes part of the experience.</h2>
+        <p>Advertisers don't buy banners in QRix. They appear inside the page people intentionally open after scanning.</p>
+        <p>Formats are flexible: a short message, an illustration, a sponsor bonus, a mini-game, a seasonal challenge — any scenario that fits the moment.</p>
+      </section>
+
+      <section id="distributors">
+        <h2>For cafés, restaurants, and stores: packaging becomes cheaper — sometimes free.</h2>
+        <p>The advertiser helps cover the cost of the cup (or other packaging), so the distributor pays less.</p>
+        <p>Distributors also get value: better-looking packaging and a modern touch customers actually notice.</p>
+
+        <h2>One object. One scan. Three benefits.</h2>
+        <p>Customers get a fun, rewarding interaction.</p>
+        <p>Advertisers get attention that isn't skipped.</p>
+        <p>Distributors get reduced packaging cost and a better product in hand.</p>
+
+        <h2>QRix is not "a QR code".</h2>
+        <p>QRix is a system for repeatable digital contact triggered by physical objects.</p>
+        <p>It's a calm, measurable way to connect brands, places, and people — through something the person already holds.</p>
+      </section>
+
+      <footer class="footer">
+        <p class="footer-note">Text-only landing. Illustrations and the "Show Demo" step will be added next.</p>
+      </footer>
+    </main>
+  </body>
+</html>
