@@ -239,3 +239,48 @@ section#hero .hero-nav {
     margin: 0 0 18px;
   }
 }
+
+section#hero .hero-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+section#hero .hero-nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #173a76 0%, #0b234f 100%);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.28),
+    0 6px 12px rgba(8, 22, 46, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+section#hero .hero-nav a:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -1px 4px rgba(0, 0, 0, 0.3),
+    0 8px 14px rgba(8, 22, 46, 0.32);
+}
+
+section#hero .hero-nav a:active {
+  transform: translateY(1px);
+  filter: brightness(0.98);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 2px 4px rgba(0, 0, 0, 0.32),
+    0 4px 8px rgba(8, 22, 46, 0.25);
+}
