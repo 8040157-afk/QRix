@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Action Details</title>
+    <link rel="stylesheet" href="qr.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="card">
+        <header class="hero">
+          <p class="hero__eyebrow">Action</p>
+          <h1 class="hero__title" id="action-name">Loading</h1>
+          <p class="hero__subtitle">Points available</p>
+        </header>
+
+        <div class="actions">
+          <div class="action-button action-button--blue" aria-live="polite">
+            <div>
+              Points
+              <span id="action-points">0</span>
+            </div>
+            <div class="action-button__points">pts</div>
+          </div>
+        </div>
+
+        <footer class="footer">
+          <a class="action-button action-button--green" href="qr.html">
+            Back to QR Actions
+          </a>
+        </footer>
+      </section>
+    </main>
+
+    <script src="action.js"></script>
+  </body>
+</html>
