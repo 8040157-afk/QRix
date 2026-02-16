@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QRGen — QRix QR Generator</title>
+
+  <!-- QRCodeStyling via jsDelivr -->
+  <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.9.2/lib/qr-code-styling.js"></script>
+
+  <style>
+    :root { color-scheme: light; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }
+    .wrap { display: grid; grid-template-columns: 380px 1fr; gap: 24px; align-items: start; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 16px; }
+    .row { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 12px; }
+    label { font-size: 12px; opacity: 0.8; }
+    input[type="text"], select, input[type="number"] { padding: 10px 12px; border: 1px solid #ccc; border-radius: 10px; }
+    input[type="color"] { padding: 0; width: 100%; height: 42px; border: 1px solid #ccc; border-radius: 10px; background: transparent; cursor: pointer; }
+    input[type="file"] { font-size: 12px; }
+    .btns { display: flex; gap: 10px; flex-wrap: wrap; }
+    button { padding: 10px 12px; border: 1px solid #333; border-radius: 10px; background: white; cursor: pointer; }
+    button.primary { background: #111; color: #fff; border-color: #111; }
+    .preview { display: grid; gap: 12px; justify-items: start; }
+    #qrWrap { padding: 14px; border-radius: 16px; transition: 160ms ease; }
+    #qr { width: 320px; height: 320px; }
+    .hint { font-size: 12px; opacity: 0.75; line-height: 1.4; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .pill { display:inline-block; padding:4px 8px; border:1px solid #ddd; border-radius:999px; font-size:12px; opacity:.8; }
+  </style>
+</head>
+
+<body>
+  <h1 style="margin:0 0 6px 0;">QRGen</h1>
+  <div class="hint" style="margin-bottom:18px;">
+    Generate styled QR codes with an embedded logo (QRix). Use <b>Error correction: H</b> for best logo tolerance.
+  </div>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="row">
+        <label for="data">QR Data (URL or text)</label>
+        <input id="data" type="text" value="https://qrix.ca/qr.html" />
+      </div>
+
+      <div class="grid2">
+        <div class="row">
+          <label for="size">Size (px)</label>
+          <input id="size" type="number" min="120" max="2000" step="10" value="320" />
+        </div>
+        <div class="row">
+          <label for="margin">Margin (px)</label>
+          <input id="margin" type="number" min="0" max="100" step="1" value="10" />
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="row">
+          <label for="dots">Dots style</label>
+          <select id="dots">
+            <option value="rounded" selected>rounded</option>
+            <option value="dots">dots</option>
+            <option value="classy">classy</option>
+            <option value="classy-rounded">classy-rounded</option>
+            <option value="square">square</option>
+            <option value="extra-rounded">extra-rounded</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="corners">Corners style</label>
+          <select id="corners">
+            <option value="square">square</option>
+            <option value="dot" selected>dot</option>
+            <option value="extra-rounded">extra-rounded</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="row">
+          <label for="ecLevel">Error correction</label>
+          <select id="ecLevel">
+            <option value="L">L</option>
+            <option value="M">M</option>
+            <option value="Q">Q</option>
+            <option value="H" selected>H (recommended for logo)</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="bgMode">Background</label>
+          <select id="bgMode">
+            <option value="white" selected>white</option>
+            <option value="transparent">transparent</option>
+            <option value="dark">dark (neon-friendly)</option>
+            <option value="custom">custom color…</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row" id="bgCustomRow" style="display:none;">
+        <label for="bgColor">Background color</label>
+        <input id="bgColor" type="color" value="#ffffff" />
+      </div>
+
+      <div class="row">
+        <label>Color palette <span class="pill">dots + corners</span></label>
+        <select id="palette">
+          <option value="qrix_blue_gold" selected>QRix — Blue & Gold</option>
+          <option value="ocean">Ocean — Deep Blue → Cyan</option>
+          <option value="sunset">Sunset — Purple → Orange</option>
+          <option value="forest">Forest — Emerald → Lime</option>
+          <option value="mono_black">Mono — Black</option>
+          <option value="neon">Neon — Magenta → Cyan</option>
+          <option value="custom">Custom…</option>
+        </select>
+      </div>
+
+      <div class="grid2">
+        <div class="row">
+          <label for="colorMode">Dots color mode</label>
+          <select id="colorMode">
+            <option value="solid">solid</option>
+            <option value="gradient" selected>gradient</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="gradType">Gradient type</label>
+          <select id="gradType">
+            <option value="linear" selected>linear</option>
+            <option value="radial">radial</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="row">
+          <label for="c1">Color A</label>
+          <input id="c1" type="color" value="#0b2cff" />
+        </div>
+        <div class="row">
+          <label for="c2">Color B</label>
+          <input id="c2" type="color" value="#f2c94c" />
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="neonGlow">Neon glow (CSS)</label>
+        <select id="neonGlow">
+          <option value="off" selected>off</option>
+          <option value="soft">soft</option>
+          <option value="strong">strong</option>
+        </select>
+        <div class="hint">Glow is a visual effect around the QR block. Scanning still depends on contrast.</div>
+      </div>
+
+      <div class="row">
+        <label for="logoFile">Logo file (PNG/SVG)</label>
+        <input id="logoFile" type="file" accept="image/png,image/svg+xml" />
+        <div class="hint">If not provided, a placeholder logo will be used.</div>
+      </div>
+
+      <div class="grid2">
+        <div class="row">
+          <label for="logoSize">Logo size ratio</label>
+          <input id="logoSize" type="number" min="0.05" max="0.40" step="0.01" value="0.22" />
+        </div>
+        <div class="row">
+          <label for="logoMargin">Logo margin (px)</label>
+          <input id="logoMargin" type="number" min="0" max="50" step="1" value="6" />
+        </div>
+      </div>
+
+      <div class="btns">
+        <button class="primary" id="render">Render</button>
+        <button id="downloadPng">Download PNG</button>
+        <button id="downloadSvg">Download SVG</button>
+      </div>
+
+      <div class="hint" style="margin-top:12px;">
+        Tip: for print, use 600–1200px size. Keep dots dark enough against background.
+      </div>
+    </div>
+
+    <div class="card preview">
+      <div id="qrWrap">
+        <div id="qr"></div>
+      </div>
+      <div class="hint">
+        For best scan reliability: high contrast + avoid very light gradients on white.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Fallback logo (inline SVG). Replace by uploading your real QRix logo.
+    const fallbackLogoSvg =
+      "data:image/svg+xml;charset=utf-8," +
+      encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" width="256" height="256">
+          <rect width="256" height="256" rx="48" fill="#111"/>
+          <text x="50%" y="54%" text-anchor="middle" font-family="Arial" font-size="84" fill="#fff">QR</text>
+          <text x="50%" y="78%" text-anchor="middle" font-family="Arial" font-size="44" fill="#fff">ix</text>
+        </svg>
+      `);
+
+    const el = (id) => document.getElementById(id);
+
+    const palettes = {
+      qrix_blue_gold: { c1: "#0b2cff", c2: "#f2c94c", bgMode: "white", colorMode: "gradient", gradType: "linear", glow: "off" },
+      ocean:          { c1: "#001a80", c2: "#00c6ff", bgMode: "white", colorMode: "gradient", gradType: "linear", glow: "off" },
+      sunset:         { c1: "#7b2cff", c2: "#ff7a18", bgMode: "white", colorMode: "gradient", gradType: "linear", glow: "off" },
+      forest:         { c1: "#0a7d4f", c2: "#a3ff12", bgMode: "white", colorMode: "gradient", gradType: "linear", glow: "off" },
+      mono_black:     { c1: "#000000", c2: "#000000", bgMode: "white", colorMode: "solid",   gradType: "linear", glow: "off" },
+      neon:           { c1: "#ff2bd6", c2: "#21d4ff", bgMode: "dark",  colorMode: "gradient", gradType: "linear", glow: "soft" }
+    };
+
+    let logoDataUrl = fallbackLogoSvg;
+
+    // Live preview instance
+    const qr = new QRCodeStyling({
+      width: 320,
+      height: 320,
+      type: "svg",
+      data: el("data").value || "https://qrix.ca/qr.html",
+      image: logoDataUrl,
+      margin: 10,
+      qrOptions: { errorCorrectionLevel: "H" },
+      imageOptions: { crossOrigin: "anonymous", margin: 6, imageSize: 0.22 },
+      dotsOptions: { type: "rounded", color: "#000000" },
+      cornersSquareOptions: { type: "dot", color: "#000000" },
+      cornersDotOptions: { type: "dot", color: "#000000" },
+      backgroundOptions: { color: "#ffffff" }
+    });
+
+    qr.append(el("qr"));
+
+    el("logoFile").addEventListener("change", async (e) => {
+      const f = e.target.files?.[0];
+      if (!f) return;
+
+      logoDataUrl = await new Promise((resolve, reject) => {
+        const r = new FileReader();
+        r.onload = () => resolve(String(r.result));
+        r.onerror = reject;
+        r.readAsDataURL(f);
+      });
+
+      render();
+    });
+
+    function applyBgAndGlow(bgMode, bgColor, glowMode, c1, c2) {
+      let bg = "#ffffff";
+      if (bgMode === "transparent") bg = "rgba(0,0,0,0)";
+      if (bgMode === "dark") bg = "#0b0b12";
+      if (bgMode === "custom") bg = bgColor || "#ffffff";
+
+      const wrap = el("qrWrap");
+      wrap.style.background = (bg === "rgba(0,0,0,0)") ? "transparent" : bg;
+
+      if (glowMode === "off") {
+        wrap.style.filter = "none";
+      } else {
+        const blur = glowMode === "strong" ? 22 : 14;
+        wrap.style.filter =
+          `drop-shadow(0 0 ${blur}px ${c1}88) drop-shadow(0 0 ${Math.round(blur*0.8)}px ${c2}77)`;
+      }
+
+      return bg;
+    }
+
+    function getDotsColorOptions(colorMode, gradType, c1, c2) {
+      if (colorMode === "solid") return { color: c1 };
+      return {
+        gradient: {
+          type: gradType,
+          rotation: 0,
+          colorStops: [
+            { offset: 0, color: c1 },
+            { offset: 1, color: c2 }
+          ]
+        }
+      };
+    }
+
+    function syncPaletteToUI(paletteKey) {
+      if (paletteKey === "custom" || !palettes[paletteKey]) return;
+
+      const p = palettes[paletteKey];
+      el("c1").value = p.c1;
+      el("c2").value = p.c2;
+      el("colorMode").value = p.colorMode;
+      el("gradType").value = p.gradType;
+      el("bgMode").value = p.bgMode;
+      el("neonGlow").value = p.glow;
+
+      if (paletteKey === "neon") {
+        el("dots").value = "extra-rounded";
+        el("corners").value = "extra-rounded";
+      }
+    }
+
+    function getCurrentOptions() {
+      const size = Number(el("size").value) || 320;
+      const margin = Number(el("margin").value) || 10;
+      const ec = el("ecLevel").value || "H";
+      const dots = el("dots").value || "rounded";
+      const corners = el("corners").value || "dot";
+
+      const palette = el("palette").value || "custom";
+      let colorMode = el("colorMode").value || "gradient";
+      let gradType = el("gradType").value || "linear";
+      let c1 = el("c1").value || "#000000";
+      let c2 = el("c2").value || "#000000";
+      let bgMode = el("bgMode").value || "white";
+      const bgColor = el("bgColor").value || "#ffffff";
+      let glow = el("neonGlow").value || "off";
+
+      if (palette !== "custom" && palettes[palette]) {
+        const p = palettes[palette];
+        c1 = p.c1; c2 = p.c2;
+        colorMode = p.colorMode;
+        gradType = p.gradType;
+        bgMode = p.bgMode;
+        glow = p.glow;
+
+        if (palette === "neon") {
+          // UI already set dots/corners to extra-rounded; keep current control values for export.
+        }
+      }
+
+      // Background for QR itself
+      let bg = "#ffffff";
+      if (bgMode === "transparent") bg = "rgba(0,0,0,0)";
+      if (bgMode === "dark") bg = "#0b0b12";
+      if (bgMode === "custom") bg = bgColor || "#ffffff";
+
+      // Wrapper (visual)
+      applyBgAndGlow(bgMode, bgColor, glow, c1, c2);
+
+      const dotsOptions =
+        (colorMode === "solid")
+          ? { type: dots, color: c1 }
+          : {
+              type: dots,
+              gradient: {
+                type: gradType,
+                rotation: 0,
+                colorStops: [
+                  { offset: 0, color: c1 },
+                  { offset: 1, color: c2 }
+                ]
+              }
+            };
+
+      const cornersColor = c1;
+
+      const imgSize = Number(el("logoSize").value) || 0.22;
+      const imgMargin = Number(el("logoMargin").value) || 6;
+
+      return {
+        width: size,
+        height: size,
+        type: "svg",
+        data: el("data").value || "",
+        image: logoDataUrl,
+        margin,
+        qrOptions: { errorCorrectionLevel: ec },
+        imageOptions: { imageSize: imgSize, margin: imgMargin, crossOrigin: "anonymous" },
+        dotsOptions,
+        cornersSquareOptions: { type: corners, color: cornersColor },
+        cornersDotOptions: { type: corners, color: cornersColor },
+        backgroundOptions: { color: bg }
+      };
+    }
+
+    function render() {
+      // Apply palette to UI (if selected)
+      syncPaletteToUI(el("palette").value || "custom");
+
+      // Custom background picker visibility
+      el("bgCustomRow").style.display = (el("bgMode").value === "custom") ? "block" : "none";
+
+      const opts = getCurrentOptions();
+
+      // Update live preview instance
+      qr.update(opts);
+    }
+
+    async function downloadFresh(ext) {
+      // Ensure UI state is applied (palette etc.)
+      render();
+
+      // Export from a fresh instance to avoid stale internal state
+      const opts = getCurrentOptions();
+      const qrExport = new QRCodeStyling(opts);
+
+      // Small delay helps with embedding logo/gradients before export
+      setTimeout(() => qrExport.download({ extension: ext }), 120);
+    }
+
+    el("render").addEventListener("click", render);
+    el("downloadPng").addEventListener("click", () => downloadFresh("png"));
+    el("downloadSvg").addEventListener("click", () => downloadFresh("svg"));
+
+    // Auto-render on changes (except file input)
+    document.querySelectorAll('input:not(#logoFile), select').forEach((ctrl) => {
+      const evt = ctrl.tagName === "SELECT" ? "change" : "input";
+      ctrl.addEventListener(evt, render);
+    });
+
+    // Initial render
+    render();
+  </script>
+</body>
+</html>
