@@ -194,36 +194,48 @@ main img {
 /* === HERO overrides (must be at the very end) === */
 
 section#hero.hero {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 22px;
-  align-items: center;
+  display: block;
 }
 
 section#hero .hero-top {
   display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 18px;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 20px;
 }
 
 section#hero img.hero-logo {
-  width: 56px;
+  width: clamp(75px, 8vw, 90px);
   height: auto;
   margin: 0;
-  border-radius: 12px;
+  border-radius: 14px;
+}
+
+section#hero.hero h1 {
+  margin: 0;
+}
+
+section#hero .hero-right {
+  margin: 6px 0 18px;
 }
 
 section#hero .hero-right img {
-  margin: 0; /* override main img margins */
-  width: 100%;
-  height: auto;
+  width: min(48%, 520px);
+  float: right;
+  margin: 0 0 16px 28px;
   border-radius: 20px;
 }
 
-@media (min-width: 900px) {
-  section#hero.hero {
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: 40px;
+section#hero .hero-subtitle,
+section#hero .hero-points,
+section#hero .hero-nav {
+  clear: left;
+}
+
+@media (max-width: 900px) {
+  section#hero .hero-right img {
+    float: none;
+    width: 100%;
+    margin: 0 0 18px;
   }
 }
