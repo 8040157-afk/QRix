@@ -205,7 +205,7 @@ section#hero .hero-top {
 }
 
 section#hero img.hero-logo {
-  width: clamp(75px, 8vw, 90px);
+  width: clamp(120px, 8vw, 90px);
   height: auto;
   margin: 0;
   border-radius: 14px;
