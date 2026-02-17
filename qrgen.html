@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QRGen — QRix QR Generator</title>
+
+  <!-- QRCodeStyling via jsDelivr -->
+  <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.9.2/lib/qr-code-styling.js"></script>
+
+  <style>
+    :root { color-scheme: light; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }
+    .wrap { display: grid; grid-template-columns: 360px 1fr; gap: 24px; align-items: start; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 16px; }
+    .row { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 12px; }
+    label { font-size: 12px; opacity: 0.8; }
+    input[type="text"], select, input[type="number"] { padding: 10px 12px; border: 1px solid #ccc; border-radius: 10px; }
+    input[type="file"] { font-size: 12px; }
+    .btns { display: flex; gap: 10px; flex-wrap: wrap; }
+    button { padding: 10px 12px; border: 1px solid #333; border-radius: 10px; background: white; cursor: pointer; }
+    button.primary { background: #111; color: #fff; border-color: #111; }
+    .preview { display: grid; gap: 12px; justify-items: start; }
+    #qr { width: 320px; height: 320px; }
+    .hint { font-size: 12px; opacity: 0.75; line-height: 1.4; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  </style>
+</head>
+
+<body>
+  <h1 style="margin:0 0 6px 0;">QRGen</h1>
+  <div class="hint" style="margin-bottom:18px;">
+    Generate styled QR codes with an embedded logo (QRix). Use <b>Error correction: H</b> for best logo tolerance.
+  </div>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="row">
+        <label for="data">QR Data (URL or text)</label>
+        <input id="data" type="text" value="https://qrix.ca/" />
+      </div>
+
+      <div class="grid2">
+        <div class="row">
+          <label for="size">Size (px)</label>
+          <input id="size" type="number" min="120" max="2000" step="10" value="320" />
+        </div>
+        <div class="row">
+          <label for="margin">Margin (px)</label>
+          <input id="margin" type="number" min="0" max="100" step="1" value="10" />
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="row">
+          <label for="dots">Dots style</label>
+          <select id="dots">
+            <option value="rounded" selected>rounded</option>
+            <option value="dots">dots</option>
+            <option value="classy">classy</option>
+            <option value="classy-rounded">classy-rounded</option>
+            <option value="square">square</option>
+            <option value="extra-rounded">extra-rounded</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="corners">Corners style</label>
+          <select id="corners">
+            <option value="square">square</option>
+            <option value="dot" selected>dot</option>
+            <option value="extra-rounded">extra-rounded</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="row">
+          <label for="ecLevel">Error correction</label>
+          <select id="ecLevel">
+            <option value="L">L</option>
+            <option value="M">M</option>
+            <option value="Q">Q</option>
+            <option value="H" selected>H (recommended for logo)</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="bg">Background</label>
+          <select id="bg">
+            <option value="#ffffff" selected>white</option>
+            <option value="transparent">transparent</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <label for="logoFile">Logo file (PNG/SVG)</label>
+        <input id="logoFile" type="file" accept="image/png,image/svg+xml" />
+        <div class="hint">If not provided, a placeholder logo will be used.</div>
+      </div>
+
+      <div class="grid2">
+        <div class="row">
+          <label for="logoSize">Logo size ratio</label>
+          <input id="logoSize" type="number" min="0.05" max="0.40" step="0.01" value="0.22" />
+        </div>
+        <div class="row">
+          <label for="logoMargin">Logo margin (px)</label>
+          <input id="logoMargin" type="number" min="0" max="50" step="1" value="6" />
+        </div>
+      </div>
+
+      <div class="btns">
+        <button class="primary" id="render">Render</button>
+        <button id="downloadPng">Download PNG</button>
+        <button id="downloadSvg">Download SVG</button>
+      </div>
+
+      <div class="hint" style="margin-top:12px;">
+        Tip: for print, start with 600–1200px size and export PNG/SVG.
+      </div>
+    </div>
+
+    <div class="card preview">
+      <div id="qr"></div>
+      <div class="hint">
+        If your logo has transparency, keep background white for maximum scan reliability.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Simple fallback logo (a tiny inline SVG). Replace by uploading your real QRix logo.
+    const fallbackLogoSvg =
+      "data:image/svg+xml;charset=utf-8," +
+      encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" width="256" height="256">
+          <rect width="256" height="256" rx="48" fill="#111"/>
+          <text x="50%" y="54%" text-anchor="middle" font-family="Arial" font-size="84" fill="#fff">QR</text>
+          <text x="50%" y="78%" text-anchor="middle" font-family="Arial" font-size="44" fill="#fff">ix</text>
+        </svg>
+      `);
+
+    const el = (id) => document.getElementById(id);
+
+    let logoDataUrl = fallbackLogoSvg;
+
+    el("logoFile").addEventListener("change", async (e) => {
+      const f = e.target.files?.[0];
+      if (!f) return;
+
+      logoDataUrl = await new Promise((resolve, reject) => {
+        const r = new FileReader();
+        r.onload = () => resolve(String(r.result));
+        r.onerror = reject;
+        r.readAsDataURL(f);
+      });
+      render();
+    });
+
+    const qr = new QRCodeStyling({
+      width: 320,
+      height: 320,
+      type: "svg",
+      data: "https://qrix.ca/",
+      image: logoDataUrl,
+      margin: 10,
+      qrOptions: { errorCorrectionLevel: "H" },
+      imageOptions: {
+        crossOrigin: "anonymous",
+        margin: 6,
+        imageSize: 0.22
+      },
+      dotsOptions: { type: "rounded" },
+      cornersSquareOptions: { type: "dot" },
+      cornersDotOptions: { type: "dot" },
+      backgroundOptions: { color: "#ffffff" }
+    });
+
+    qr.append(el("qr"));
+
+    function render() {
+      const size = Number(el("size").value) || 320;
+      const margin = Number(el("margin").value) || 10;
+      const ec = el("ecLevel").value || "H";
+      const dots = el("dots").value || "rounded";
+      const corners = el("corners").value || "dot";
+      const bg = el("bg").value || "#ffffff";
+      const imgSize = Number(el("logoSize").value) || 0.22;
+      const imgMargin = Number(el("logoMargin").value) || 6;
+
+      qr.update({
+        width: size,
+        height: size,
+        data: el("data").value || "",
+        image: logoDataUrl,
+        margin,
+        qrOptions: { errorCorrectionLevel: ec },
+        dotsOptions: { type: dots },
+        cornersSquareOptions: { type: corners },
+        cornersDotOptions: { type: corners },
+        backgroundOptions: { color: bg === "transparent" ? "rgba(0,0,0,0)" : bg },
+        imageOptions: { imageSize: imgSize, margin: imgMargin, crossOrigin: "anonymous" }
+      });
+    }
+
+    el("render").addEventListener("click", render);
+    el("downloadPng").addEventListener("click", () => qr.download({ extension: "png" }));
+    el("downloadSvg").addEventListener("click", () => qr.download({ extension: "svg" }));
+
+    // Initial render
+    render();
+  </script>
+</body>
+</html>
