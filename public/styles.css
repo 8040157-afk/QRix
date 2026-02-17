@@ -22,10 +22,9 @@ body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--text);
-  background: var(--bg);
+  background: var(--bg) !important;
   line-height: 1.6;
   font-size: 20px;
-  background: var(--bg) !important;
 }
 
 /* === LAYOUT === */
@@ -34,7 +33,7 @@ main {
   max-width: 720px; /* mobile / tablet */
   margin: 0 auto;
   padding: 24px;
-  padding-top: 56px;  /* show background above first card */
+  padding-top: 56px; /* show background above first card */
   padding-bottom: 96px; /* show background after last card */
 }
 
@@ -101,7 +100,7 @@ p {
 
 /* === FOOTER === */
 
-footer {
+footer.footer {
   border-top: 1px solid var(--border);
   padding-top: 32px;
   margin-top: 56px;
@@ -112,6 +111,40 @@ footer {
   font-size: 0.85rem;
   margin: 0;
   text-align: center;
+}
+
+/* Footer contacts */
+
+.footer-contacts {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* center everything */
+  justify-content: center;
+  text-align: center;
+}
+
+.contact-title {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 2rem; /* adjust here */
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.contact-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.contact-icon svg {
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.contact-icon:hover svg {
+  transform: scale(1.1);
 }
 
 /* === TABLE === */
@@ -286,10 +319,10 @@ section#hero .hero-nav {
   }
 }
 
-
 section#hero .hero-nav {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* allow 5+ buttons */
+  justify-content: center;
   gap: 12px;
   margin-top: 18px;
 }
@@ -330,6 +363,16 @@ section#hero .hero-nav a:active {
     inset 0 1px 0 rgba(255, 255, 255, 0.18),
     inset 0 2px 4px rgba(0, 0, 0, 0.32),
     0 4px 8px rgba(8, 22, 46, 0.25);
+}
+
+/* Gold "Contact Us" button (must override hero-nav a) */
+section#hero .hero-nav a.nav-contact {
+  background: linear-gradient(135deg, #b8860b, #d4af37);
+  color: #ffffff;
+}
+
+section#hero .hero-nav a.nav-contact:hover {
+  background: linear-gradient(135deg, #a07808, #c49b2f);
 }
 
 /* Large QR block under hero image (right side) */
