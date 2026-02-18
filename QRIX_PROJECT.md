@@ -44,7 +44,7 @@ Public directory:
     index.html          → Landing page (DO NOT MODIFY)
     styles.css          → Landing styles (DO NOT MODIFY)
 
-    qr.html             → QR scan destination (MVP screen with buttons)
+    qr.php              → QR scan destination (MVP screen with buttons)
     qr.css              → QR page styles
     qr.js               → QR page logic
     action.html         → Temporary action page (mock destination)

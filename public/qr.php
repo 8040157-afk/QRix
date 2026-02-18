@@ -1,13 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>QRix Rewards</title>
-    <link rel="icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png" />
+    <?php
+      $page_title = "QRix Rewards";
+      $page_description = "QRix Rewards QR actions page.";
+      $include_main_styles = false;
+      include __DIR__ . '/partials/head.php';
+    ?>
     <link rel="stylesheet" href="qr.css?v=20260216-1" />
   </head>
   <body>
@@ -18,8 +17,8 @@
         </header>
 
         <div class="about-project">
-          <a href="index.html#hero" class="about-project__btn">About Project</a>
-      </div>
+          <a href="https://www.qrix.ca" class="about-project__btn">About Project</a>
+        </div>
 
         <div class="actions" id="actions" aria-live="polite"></div>
 
@@ -29,6 +28,7 @@
       </section>
     </main>
 
+    <?php include __DIR__ . '/partials/footer.php'; ?>
     <script src="qr.js"></script>
   </body>
 </html>

@@ -40,7 +40,7 @@
     <div class="card">
       <div class="row">
         <label for="data">QR Data (URL or text)</label>
-        <input id="data" type="text" value="https://qrix.ca/qr.html" />
+        <input id="data" type="text" value="https://qrix.ca/qr.php" />
       </div>
 
       <div class="grid2">
@@ -221,7 +221,7 @@
       width: 320,
       height: 320,
       type: "svg",
-      data: el("data").value || "https://qrix.ca/qr.html",
+      data: el("data").value || "https://qrix.ca/qr.php",
       image: logoDataUrl,
       margin: 10,
       qrOptions: { errorCorrectionLevel: "H" },

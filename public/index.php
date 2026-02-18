@@ -11,8 +11,10 @@
   <div class="hero-left">
 
     <div class="hero-top">
-      <img src="assets/image/QR_logo.png" alt="QRix Logo" class="hero-logo">
-      <h1>QRix — Turning Everyday Packaging into Interactive Media</h1>
+      <a href="/qr.php" class="hero-qr-link">
+      <img src="assets/image/QRix_logo.png" alt="QRix Logo" class="hero-logo">
+      </a>
+      <h1>Turning Everyday Packaging into Interactive Media</h1>
     </div>
 
     <div class="hero-right">
@@ -21,7 +23,7 @@
 
     <!-- Large QR block under illustration -->
     <div class="hero-qr-block">
-      <a href="qr.html" class="hero-qr-link">
+      <a href="/qr.php" class="hero-qr-link">
     <img src="assets/image/QR_dots.png"
          alt="Scan QRix code"
          class="hero-qr-large">
